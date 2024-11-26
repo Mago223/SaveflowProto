@@ -2,21 +2,22 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Mail, Lock } from "lucide-react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { Mail, Lock, User } from "lucide-react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch (error) {
       setError(error.message);
@@ -67,7 +68,7 @@ const LoginPage = () => {
           </motion.h1>
         </motion.div>
 
-        {/* Login Card */}
+        {/* Sign Up Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,11 +81,11 @@ const LoginPage = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            Login
+            Sign Up
           </motion.h2>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            {/* Email Input */}
+          <form onSubmit={handleSignUp} className="space-y-6">
+            {/* Full Name Input */}
             <motion.div
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -92,8 +93,29 @@ const LoginPage = () => {
               className="space-y-2"
             >
               <label className="text-sm text-gray-300 flex items-center gap-2">
+                <User size={16} />
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 outline-none"
+                placeholder="Enter your full name"
+                required
+              />
+            </motion.div>
+
+            {/* Email Input */}
+            <motion.div
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="space-y-2"
+            >
+              <label className="text-sm text-gray-300 flex items-center gap-2">
                 <Mail size={16} />
-                Email/Username
+                Email
               </label>
               <input
                 type="email"
@@ -109,7 +131,7 @@ const LoginPage = () => {
             <motion.div
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               className="space-y-2"
             >
               <label className="text-sm text-gray-300 flex items-center gap-2">
@@ -121,7 +143,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 outline-none"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 required
               />
             </motion.div>
@@ -137,23 +159,7 @@ const LoginPage = () => {
               </motion.p>
             )}
 
-            {/* Remember Me & Forgot Password */}
-            <motion.div
-              className="flex items-center justify-between text-sm"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <label className="flex items-center gap-2 text-gray-300">
-                <input
-                  type="checkbox"
-                  className="rounded border-gray-600 text-purple-600 focus:ring-purple-500/20"
-                />
-                Remember me
-              </label>
-            </motion.div>
-
-            {/* Login Button */}
+            {/* Sign Up Button */}
             <motion.button
               type="submit"
               className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl font-medium shadow-lg shadow-purple-500/20 hover:from-purple-700 hover:to-purple-800 transition-all duration-300"
@@ -163,22 +169,22 @@ const LoginPage = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              Login
+              Create Account
             </motion.button>
 
-            {/* Sign Up Link */}
+            {/* Login Link */}
             <motion.p
               className="text-center text-gray-400 text-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <a
-                href="/signup"
+                href="/login"
                 className="text-purple-400 hover:text-purple-300 transition-colors"
               >
-                Sign up
+                Login
               </a>
             </motion.p>
           </form>
@@ -188,4 +194,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUp;
