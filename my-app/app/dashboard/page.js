@@ -43,10 +43,14 @@ const Dashboard = () => {
     router.push("/");
   };
 
+  // Calculate remaining income after deducting rent and food
+  const remainingIncome = income - (rent || 0) - (food || 0);
+
+  // Pie chart data
   const data = [
-    { name: "Income", value: income || 52 },
-    { name: "Food", value: food || 23 },
-    { name: "Rent", value: rent || 25 },
+    { name: "Income", value: remainingIncome > 0 ? remainingIncome : 50 },
+    { name: "Food", value: food || 24 },
+    { name: "Rent", value: rent || 23 },
   ];
 
   const COLORS = ["#8B5CF6", "#F59E0B", "#3B82F6"];
