@@ -173,7 +173,7 @@ const LoginPage = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a
                 href="/signup"
                 className="text-purple-400 hover:text-purple-300 transition-colors"
